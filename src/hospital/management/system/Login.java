@@ -1,8 +1,11 @@
 package hospital.management.system;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
-public class Login extends JFrame {
+public class Login extends JFrame implements ActionListener {
     JTextField textField;
     JPasswordField passwordField;
 
@@ -45,10 +48,15 @@ public class Login extends JFrame {
         b1=new JButton("LOGIN");
         b1.setBounds(40,140,120,30);
         b1.setFont(new Font("serif",Font.BOLD,15));
+        b1.addActionListener(this);
         add(b1);
+
+
+
         b2=new JButton("CANCEL");
         b2.setBounds(180,140,120,30);
         b2.setFont(new Font("serif",Font.BOLD,15));
+        b2.addActionListener(this);
         add(b2);
 
 
@@ -62,5 +70,35 @@ public class Login extends JFrame {
     public static void main(String[] args) {
 
         new Login();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==b1)
+        {
+         try{
+
+             Conn c=new Conn();
+             String user=textField.getText();
+             String pass=passwordField.getText();
+
+             String query="select * from login where ID='"+user+"'  and password= '"+pass+"'";
+
+             ResultSet resultSet=c.statement.executeQuery(query);
+             if(resultSet.next())
+             {
+                    new Test();
+                    setVisible(false);
+             }else{
+                 JOptionPane.showMessageDialog(null,"Invalid");
+             }
+
+         }catch(Exception E)
+         {
+             E.printStackTrace();
+         }
+        }else{
+                System.exit(10);
+        }
     }
 }
