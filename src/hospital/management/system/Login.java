@@ -87,7 +87,7 @@ public class Login extends JFrame implements ActionListener {
              ResultSet resultSet=c.statement.executeQuery(query);
              if(resultSet.next())
              {
-                    new Test();
+                    new Reception();
                     setVisible(false);
              }else{
                  JOptionPane.showMessageDialog(null,"Invalid");
