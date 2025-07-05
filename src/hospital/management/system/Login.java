@@ -84,13 +84,13 @@ public class Login extends JFrame implements ActionListener {
 
              String query="select * from login where ID='"+user+"'  and password= '"+pass+"'";
 
-             ResultSet resultSet=c.statement.executeQuery(query);
+             ResultSet resultSet=c.statement.executeQuery(query); //check validation
              if(resultSet.next())
              {
                     new Reception();
                     setVisible(false);
              }else{
-                 JOptionPane.showMessageDialog(null,"Invalid");
+                 JOptionPane.showMessageDialog(null,"Invalid");//pop-up
              }
 
          }catch(Exception E)
