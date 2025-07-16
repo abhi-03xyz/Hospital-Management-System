@@ -68,7 +68,7 @@ public class Reception extends JFrame {
         btn3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                new Department();
             }
         });
 
