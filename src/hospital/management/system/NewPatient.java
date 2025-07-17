@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.util.Date;
+import org.json.JSONObject;
 
 
 
@@ -18,10 +19,15 @@ public class NewPatient extends JFrame  implements ActionListener {
     Choice c1;
     JLabel date;
     JButton b1,b2;
+
+    JCheckBox cbFever,cbCough,cbHeadache,cbFatigue,cbChestPain;
+    JTextField textFieldDepartment;
+
+    JButton btnPredict;
     NewPatient()
     {
         JPanel panel=new JPanel();
-        panel.setBounds(5,5,840,540);
+        panel.setBounds(5,5,1080,800);
         panel.setBackground(new Color(90,156,163));
         panel.setLayout(null);
         add(panel);
@@ -150,7 +156,7 @@ public class NewPatient extends JFrame  implements ActionListener {
 
         JLabel labelDeposite =new JLabel("Deposite :");
         labelDeposite.setBounds(35,359,200,14);
-        labelDeposite.setFont(new Font("Tahoma",Font.BOLD,17));
+        labelDeposite.setFont(new Font("Tahoma",Font.BOLD,14));
         labelDeposite.setForeground(Color.white);
         panel.add((labelDeposite));
 
@@ -158,15 +164,55 @@ public class NewPatient extends JFrame  implements ActionListener {
         textFieldDeposite.setBounds(271,359,150,20);
         panel.add(textFieldDeposite);
 
+
+        JLabel lableDept=new JLabel("Department:");
+        lableDept.setBounds(35,395,200,20);
+        lableDept.setFont(new Font("Tahoma",Font.BOLD,14));
+        lableDept.setForeground(Color.white);
+        panel.add(lableDept);
+
+        textFieldDepartment=new JTextField();
+        textFieldDepartment.setBounds(271,395,150,20);
+        textFieldDepartment.setEditable(false);
+        panel.add(textFieldDepartment);
+
+
+        cbFever=new JCheckBox("Fever");
+        cbCough = new JCheckBox("Cough");
+        cbHeadache = new JCheckBox("Headache");
+        cbFatigue = new JCheckBox("Fatigue");
+        cbChestPain = new JCheckBox("Chest Pain");
+
+        cbFever.setBounds(271, 490, 100, 20);
+        cbCough.setBounds(370, 490, 100, 20);
+        cbHeadache.setBounds(271, 520, 100, 20);
+        cbFatigue.setBounds(370, 520, 100, 20);
+        cbChestPain.setBounds(271, 560, 100, 20);
+
+        panel.add(cbFever);
+        panel.add(cbCough);
+        panel.add(cbHeadache);
+        panel.add(cbFatigue);
+        panel.add(cbChestPain);
+
+        btnPredict=new JButton("Predict Disease");
+        btnPredict.setBounds(500,520,150,25);
+        btnPredict.setBackground(Color.green);
+        btnPredict.setForeground(Color.BLACK);
+        btnPredict.addActionListener(this);
+        panel.add(btnPredict);
+
+
+
         b1=new JButton("ADD");
-        b1.setBounds(100,430,120,30);
+        b1.setBounds(100,610,120,30);
         b1.setForeground(Color.white);
         b1.setBackground(Color.black);
         b1.addActionListener(this);
         panel.add(b1);
 
         b2=new JButton("BACK");
-        b2.setBounds(260,430,120,30);
+        b2.setBounds(260,610,120,30);
         b2.setForeground(Color.white);
         b2.setBackground(Color.black);
         b2.addActionListener(this);
@@ -174,9 +220,9 @@ public class NewPatient extends JFrame  implements ActionListener {
 
 
         //setUndecorated(true);
-        setSize(850,550);
+        setSize(1090,810);
         setLayout(null);
-        setLocation(300,250);
+       // setLocation(300,250);
         setVisible(true);
     }
 
@@ -187,6 +233,65 @@ public class NewPatient extends JFrame  implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        if(e.getSource()==btnPredict){
+
+            try{
+
+                int fever=cbFever.isSelected()?1:0;
+                int cough=cbCough.isSelected()?1:0;
+                int headache=cbHeadache.isSelected()?1:0;
+                int fatigue=cbFatigue.isSelected()?1:0;
+                int chestPain=cbChestPain.isSelected()?1:0;
+
+                // Create JSON string
+                String jsonInput = String.format(
+                        "{\"fever\":%d,\"cough\":%d,\"headache\":%d,\"fatigue\":%d,\"chest_pain\":%d}",
+                        fever, cough, headache, fatigue, chestPain
+                );
+
+                //connection with flask server
+                java.net.URL url=new java.net.URL("http://localhost:5000/predict");
+                java.net.HttpURLConnection conn=(java.net.HttpURLConnection) url.openConnection();
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type","application/json");
+
+                //send request
+                java.io.OutputStream os=conn.getOutputStream();
+                os.write(jsonInput.getBytes());
+                os.flush();
+
+                //read our response
+                java.io.BufferedReader br=new java.io.BufferedReader(new java.io.InputStreamReader(conn.getInputStream()));
+                StringBuilder sb=new StringBuilder();
+                String line;
+                while((line=br.readLine()) != null)
+                {
+                    sb.append(line);
+                }
+
+                conn.disconnect();
+
+                //parsing json response
+                org.json.JSONObject responseJson=new org.json.JSONObject(sb.toString());
+                String disease=responseJson.getString("predicted_disease");
+                String department=responseJson.getString("recommended_department");
+
+                //update
+                textFieldDisease.setText(disease);
+                textFieldDepartment.setText(department);
+                JOptionPane.showMessageDialog(null,"Disease predicted successfully!");
+
+
+            }catch (Exception ex){
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Prediction failed. Is Flask running?");
+            }
+        }
+
+
+
         if(e.getSource()==b1)
         {
             Conn c=new Conn();
@@ -223,9 +328,11 @@ public class NewPatient extends JFrame  implements ActionListener {
             }
 
 
-        }else{
+        }else if(e.getSource()==b2){
             setVisible(false);
         }
+
+
 
     }
 }

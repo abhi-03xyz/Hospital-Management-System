@@ -1,0 +1,6 @@
+fever,cough,headache,fatigue,chest_pain,disease,department
+1,1,0,1,0,Flu,General Medicine
+1,0,1,1,0,Typhoid,General Medicine
+0,0,1,0,1,Heart Attack,Cardiology
+1,1,1,1,0,COVID-19,General Medicine
+0,0,1,1,0,Migraine,Neurology
