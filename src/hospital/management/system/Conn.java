@@ -16,7 +16,7 @@ public class Conn {
             connection= DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/hospital_management_system?useSSL=false&serverTimezone=UTC",
                     "root",
-                    "*********"
+                    "@freefire01SQL"
             );
             statement=connection.createStatement();
         }catch (Exception e)
