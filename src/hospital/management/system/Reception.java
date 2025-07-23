@@ -127,7 +127,7 @@ public class Reception extends JFrame {
         btn8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                new Ambulance();
             }
         });
 
@@ -139,7 +139,7 @@ public class Reception extends JFrame {
         btn9 .addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                    new SearchRoom();
             }
         });
 
@@ -150,7 +150,8 @@ public class Reception extends JFrame {
         btn10 .addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                        setVisible(false);
+                        new Login();
             }
         });
 

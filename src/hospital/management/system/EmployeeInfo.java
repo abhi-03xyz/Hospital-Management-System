@@ -78,7 +78,7 @@ public class EmployeeInfo extends JFrame {
                     setVisible(false);
                 }
             });
-            //setUndecorated(true);
+            setUndecorated(true);
             setSize(1000,600);
             setLocation(350,230);
             setLayout(null);

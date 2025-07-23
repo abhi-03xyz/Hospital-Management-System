@@ -8,24 +8,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 
-public class AllPatientInfo extends JFrame {
+public class Ambulance extends JFrame {
 
-    AllPatientInfo()
-    {
+    Ambulance(){
+
         JPanel panel=new JPanel();
-        panel.setBounds(5,5,1490,690);
+        panel.setBounds(5,5,890,590);
         panel.setBackground(new Color(90,156,163));
         panel.setLayout(null);
         add(panel);
 
         JTable table=new JTable();
-        table.setBounds(20,40,1450,550);
+        table.setBounds(20,50,800,400);
         table.setBackground(new Color(90,156,163));
         table.setFont(new Font("Tahoma",Font.BOLD,14));
         panel.add(table);
         try{
             Conn c=new Conn();
-            String query="select * from patient_info";
+            String query="select * from ambulance";
             ResultSet resultSet=c.statement.executeQuery(query);
             table.setModel(DbUtils.resultSetToTableModel(resultSet));
 
@@ -34,48 +34,35 @@ public class AllPatientInfo extends JFrame {
             e.printStackTrace();
         }
 
-        JLabel label1=new JLabel("ID");
-        label1.setBounds(31,11,100,14);
+        JLabel label1=new JLabel("Name");
+        label1.setBounds(20,11,100,15);
         label1.setFont(new Font("Tahoma",Font.BOLD,15));
         panel.add(label1);
 
-        JLabel label2 =new JLabel("ID Number");
-        label2.setBounds(220,11,100,14);
+        JLabel label2 =new JLabel("Gender");
+        label2.setBounds(190,11,100,15);
         label2.setFont(new Font("Tahoma",Font.BOLD,15));
         panel.add(label2);
 
-        JLabel label3 =new JLabel("Name");
-        label3.setBounds(390,11,100,14);
+        JLabel label3 =new JLabel("Car Name");
+        label3.setBounds(350,11,100,15);
         label3.setFont(new Font("Tahoma",Font.BOLD,15));
         panel.add(label3);
 
-        JLabel label4 =new JLabel("Gender");
-        label4.setBounds(570,11,100,14);
+        JLabel label4 =new JLabel("Availability");
+        label4.setBounds(520,11,100,15);
         label4.setFont(new Font("Tahoma",Font.BOLD,15));
         panel.add(label4);
 
-        JLabel label5 =new JLabel("Disease");
-        label5.setBounds(750,11,100,14);
+        JLabel label5 =new JLabel("Location");
+        label5.setBounds(700,11,100,15);
         label5.setFont(new Font("Tahoma",Font.BOLD,15));
         panel.add(label5);
 
-        JLabel label6 =new JLabel("Room no.");
-        label6.setBounds(940,11,100,14);
-        label6.setFont(new Font("Tahoma",Font.BOLD,15));
-        panel.add(label6);
 
-        JLabel label7 =new JLabel("Date & Time");
-        label7.setBounds(1110,11,100,14);
-        label7.setFont(new Font("Tahoma",Font.BOLD,15));
-        panel.add(label7);
-
-        JLabel label8 =new JLabel("Deposite");
-        label8.setBounds(1300,11,100,14);
-        label8.setFont(new Font("Tahoma",Font.BOLD,15));
-        panel.add(label8);
 
         JButton button=new JButton("BACK");
-        button.setBounds(550,600,120,30);
+        button.setBounds(550,480,120,30);
         panel.add(button);
         button.addActionListener(new ActionListener() {
             @Override
@@ -86,13 +73,13 @@ public class AllPatientInfo extends JFrame {
 
 
         setUndecorated(true);
-        setSize(1500,700);
+        setSize(900,600);
         setLayout(null);
-        setLocation(50,100);
+         setLocation(300,200);
         setVisible(true);
-
     }
+
     public static void main(String[] args) {
-        new AllPatientInfo();
+        new Ambulance();
     }
 }

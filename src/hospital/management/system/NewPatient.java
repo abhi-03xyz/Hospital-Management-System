@@ -173,6 +173,7 @@ public class NewPatient extends JFrame  implements ActionListener {
 
         textFieldDepartment=new JTextField();
         textFieldDepartment.setBounds(271,395,150,20);
+        textFieldDepartment.setBackground(new Color(90,156,163));
         textFieldDepartment.setEditable(false);
         panel.add(textFieldDepartment);
 
@@ -219,7 +220,7 @@ public class NewPatient extends JFrame  implements ActionListener {
         panel.add(b2);
 
 
-        //setUndecorated(true);
+        setUndecorated(true);
         setSize(1090,810);
         setLayout(null);
        // setLocation(300,250);

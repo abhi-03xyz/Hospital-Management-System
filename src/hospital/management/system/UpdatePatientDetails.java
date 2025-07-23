@@ -169,7 +169,7 @@ public class UpdatePatientDetails  extends JFrame {
 
 
 
-
+        setUndecorated(true);
         setSize(950,500);
         setLayout(null);
         setLocation(400,250);
